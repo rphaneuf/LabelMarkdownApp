@@ -1,0 +1,101 @@
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top|center"
+    android:orientation="vertical">
+    <EditText
+        android:text="UPC #"
+        android:layout_width="195.5dp"
+        android:layout_height="wrap_content"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/UPCInput"
+        app:backgroundTintMode="src_over"
+        android:background="#ffb2b0af"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:inputType="text" />
+    <Button
+        android:text="Search"
+        android:layout_width="151.0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/SearchBtn" />
+    <TextView
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/InvalidInputTxt"
+        android:textColor="#ffb71c1c"/>
+    <TextView
+        android:text="Descripton:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/DescriptionTxt"
+        android:textColor="#ff000000"/>
+    <TextView
+        android:text="Price:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/PriceTxt"
+        android:textColor="#ff000000"/>
+    <TextView
+        android:text="Unit of Measure:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/UOMTxt"
+        android:textColor="#ff000000"
+        android:layout_marginBottom="20dp" />
+    <EditText
+        android:text="Markdown Number"
+        android:layout_width="195.5dp"
+        android:layout_height="wrap_content"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/MarkdownInput"
+        app:backgroundTintMode="src_over"
+        android:background="#ffb2b0af"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:inputType="text" />
+    <CheckBox
+        android:text="%"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/PercentChck" />
+    <CheckBox
+        android:text="$"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/DollarChck" />
+    <Button
+        android:text="Generate"
+        android:layout_width="151.0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/GenerateBtn" />
+    <TextView
+        android:text="New Price:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/NewPriceTxt"
+        android:textColor="#ff000000"/>
+    <ImageView
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:id="@+id/BarcodeImage"
+        android:layout_below="@+id/plain_text_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="25px"
+        android:minHeight="25px"/>  
+</LinearLayout>
