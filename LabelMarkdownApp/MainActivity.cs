@@ -33,24 +33,57 @@ namespace LabelMarkdownApp
             CheckBox dollarChck = FindViewById<CheckBox>(Resource.Id.DollarChck);
             Button generateBtn = FindViewById<Button>(Resource.Id.GenerateBtn);
             TextView newPriceTxt = FindViewById<TextView>(Resource.Id.NewPriceTxt);
+            TextView newUPCTxt = FindViewById<TextView>(Resource.Id.NewUPCTxt);
             ImageView barcodeImage = FindViewById<ImageView>(Resource.Id.BarcodeImage);
 
             MeijerMarkdownCode myClass = new MeijerMarkdownCode();
 
             searchBtn.Click += (sender, e) =>
-            {
+            {              
                 if (upcInput.Text == "UPC #")
                 {
                     invalidInputTxt.Text = "Error. Improper UPC";
                 }
                 else
                 {
+                    int cnt = 0;
+                    while (cnt < 300000000)
+                    {
+                        cnt++;
+                    }
                     //myClass.ExtractData(upcInput, invalidInputTxt, descriptionTxt, priceTxt, uOMTxt);
-                    descriptionTxt.Text = "Description: ALOE LEAVES";
-                    priceTxt.Text = "Price: 1.0";
-                    uOMTxt.Text = "Unit of Measure: EA";
+                    if (upcInput.Text.Trim() == "00708820427723")
+                    {
+                        descriptionTxt.Text = "Description: PURPLE COW ICE CRM SNDWCH 12CT 38.4 OZ";
+                        priceTxt.Text = "Price: $2.99";
+                        uOMTxt.Text = "Unit of Measure: LB";
+                    }
+                    else
+                    {
+                        descriptionTxt.Text = "Description: ALOE LEAVES";
+                        priceTxt.Text = "Price: $1.00";
+                        uOMTxt.Text = "Unit of Measure: EA";
+                    }
+                    descriptionTxt.Visibility = Android.Views.ViewStates.Visible;
+                    priceTxt.Visibility = Android.Views.ViewStates.Visible;
+                    uOMTxt.Visibility = Android.Views.ViewStates.Visible;
+                    markdownInput.Visibility = Android.Views.ViewStates.Visible;
+                    percentChck.Visibility = Android.Views.ViewStates.Visible;
+                    dollarChck.Visibility = Android.Views.ViewStates.Visible;
+                    generateBtn.Visibility = Android.Views.ViewStates.Visible;
                 }
 
+            };
+
+            upcInput.Click += (sender, e) =>
+            {
+                upcInput.Text = "";
+            };
+
+            markdownInput.Click += (sender, e) =>
+            {
+                markdownInput.Text = "";
+                generateBtn.Text = "Generate";
             };
 
             generateBtn.Click += (sender, e) =>
@@ -75,8 +108,9 @@ namespace LabelMarkdownApp
                 {
                     if (permission == Permission.Granted && permissionread == Permission.Granted)
                     {
-                        string UPC = myClass.Markdown(upcInput, percentChck, markdownInput, newPriceTxt);
+                        string UPC = myClass.Markdown(upcInput, percentChck, markdownInput, newPriceTxt, newUPCTxt);
                         myClass.Generate(UPC, barcodeImage);
+
                     }
                     else
                     {
@@ -87,6 +121,12 @@ namespace LabelMarkdownApp
                 {
                     Console.WriteLine($"Exception {ex} ");
                 }
+
+                newPriceTxt.Visibility = Android.Views.ViewStates.Visible;
+                newUPCTxt.Visibility = Android.Views.ViewStates.Visible;
+                barcodeImage.Visibility = Android.Views.ViewStates.Visible;
+                generateBtn.Text = "Print";
+                
 
             };
 

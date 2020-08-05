@@ -123,34 +123,55 @@ namespace Core
 
         }
 
-        public string Markdown(EditText upcInput, CheckBox Percent, EditText markdownInput, TextView newPriceTxt)
+        public string Markdown(EditText upcInput, CheckBox Percent, EditText markdownInput, TextView newPriceTxt, TextView newUPCTxt)
         {
             //These 3 lines belong in ExractData 
-            CurrentUPC = (upcInput.Text.Substring(0, 1).Equals("2")) ? upcInput.Text.Substring(0, 6) + "00000" : upcInput.Text.Substring(0, upcInput.Text.Length - 1);
-            CurrentCheckDigit = Int32.Parse(upcInput.Text.Substring(11, 1));
-            CurrentAmount = (upcInput.Text.Substring(0, 1).Equals("2")) ? Int32.Parse(upcInput.Text.Substring(6, 5)) / 100.00 : 0;
-
+            if(upcInput.Text.Length == 14)
+            {
+                CurrentUPC = (upcInput.Text.Substring(0, 1).Equals("2")) ? upcInput.Text.Substring(0, 6) + "00000" : upcInput.Text.Substring(2);
+                CurrentCheckDigit = Int32.Parse(upcInput.Text.Substring(11, 1));
+                CurrentUPC = CurrentUPC.Substring(0, CurrentUPC.Length - 1);
+            }
+            else
+            {
+                CurrentUPC = (upcInput.Text.Substring(0, 1).Equals("2")) ? upcInput.Text.Substring(0, 6) + "00000" : upcInput.Text.Substring(0, upcInput.Text.Length - 1);
+                CurrentCheckDigit = Int32.Parse(upcInput.Text.Substring(11, 1));
+            }
+            CurrentAmount = (upcInput.Text.Substring(0, 1).Equals("2")) ? Int32.Parse(CurrentUPC.Substring(6, 5)) / 100.00 : 0;
+            
             //Hardcoded values for ALOE LEAVES due to API connection not working 
-            CurrentPrice = 1.0;
-            CurrentUOM = UOM.EA;
-            CurrentWeight = 1;
+            if (upcInput.Text.Trim() == "00708820427723")
+            {
+                CurrentPrice = 2.99;
+                CurrentUOM = UOM.LB;
+                CurrentWeight = Math.Round(CurrentAmount / CurrentPrice, 2);
+            }
+            else
+            {
+                CurrentPrice = 1.0;
+                CurrentUOM = UOM.EA;
+                CurrentWeight = 1;
+            }
+
 
             //Throw in check for improper input
             double markdownAmt = float.Parse(markdownInput.Text);
             double newPrice = (bool)Percent.Checked ? newPrice = CurrentPrice - (CurrentPrice * markdownAmt / 100) : newPrice = (CurrentPrice - markdownAmt);
             newPrice = (newPrice < 0) ? -1 : newPrice;
             CurrentPrice = newPrice;
-            newPriceTxt.Text = CurrentPrice.ToString().Trim();
+            newPriceTxt.Text = "New Price: $" + CurrentPrice.ToString("0.00");
 
-            string currDigits = markdownInput.Text.Replace(".", "");
+  
+            string currDigits = newPrice.ToString("0.00").Replace(".", ""); 
             string newVal = "";
             for (int i = 0; i < 5 - currDigits.Length; i++)
             {
                 newVal = newVal + "0";
             }
-            currDigits += newVal;
+            newVal += currDigits;
 
-            string newUPC = "999" + CurrentUPC + CurrentCheckDigit + currDigits + CurrentWeight.ToString("00.00").Replace(".", "") + (CurrentUOM == UOM.LB ? 4 : 1);
+            string newUPC = "999" + CurrentUPC + CurrentCheckDigit + newVal + CurrentWeight.ToString("00.00").Replace(".", "") + (CurrentUOM == UOM.LB ? 4 : 1);
+            newUPCTxt.Text = "New UPC: " + newUPC;
 
             return newUPC;
         }
